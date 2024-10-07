@@ -3,7 +3,8 @@ import 'package:flag_quiz_app/data/questions.dart';
 import 'package:flag_quiz_app/model/quiz_question.dart';
 
 class Questionsscreen extends StatefulWidget {
-  const Questionsscreen({super.key});
+  const Questionsscreen({super.key, required this.chooseAnswer});
+  final void Function(String) chooseAnswer;
   @override
   State<Questionsscreen> createState() {
     return _QuestionsscreenState();
@@ -12,7 +13,8 @@ class Questionsscreen extends StatefulWidget {
 
 class _QuestionsscreenState extends State<Questionsscreen> {
   var a = 0;
-  void switchScreen() {
+  void switchScreen(String answer) {
+    widget.chooseAnswer(answer);
     setState(() {
       a++;
     });
@@ -40,7 +42,9 @@ class _QuestionsscreenState extends State<Questionsscreen> {
           ...asks.answers.map(
             (answers) {
               return OutlinedButton(
-                onPressed: switchScreen,
+                onPressed: () {
+                  switchScreen(answers);
+                },
                 child: Text(
                   answers,
                 ),

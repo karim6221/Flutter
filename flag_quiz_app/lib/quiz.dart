@@ -1,4 +1,6 @@
+import 'package:flag_quiz_app/data/questions.dart';
 import 'package:flag_quiz_app/questionsScreen.dart';
+import 'package:flag_quiz_app/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flag_quiz_app/start_page.dart';
 
@@ -18,6 +20,16 @@ class _Quizstate extends State<Quiz> {
     });
   }
 
+  void addAnswer(String answer) {
+    selectedAnswers.add(answer);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = 'result';
+      });
+    }
+  }
+
+  List<String> selectedAnswers = [];
   @override
   build(context) {
     Widget selectedScreen = StartPage(
@@ -25,9 +37,17 @@ class _Quizstate extends State<Quiz> {
     );
     if (activeScreen == 'questionpage') {
       setState(() {
-        selectedScreen = const Questionsscreen();
+        selectedScreen = Questionsscreen(
+          chooseAnswer: addAnswer,
+        );
       });
     }
+    if (activeScreen == 'result') {
+      setState(() {
+        selectedScreen = const ResultScreen();
+      });
+    }
+
     return MaterialApp(
       home: Scaffold(
           body: Container(
